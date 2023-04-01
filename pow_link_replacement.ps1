@@ -28,6 +28,7 @@ foreach($computer in $computers) {
     $check_pow_local = Get-ChildItem "\\$computer\C$" -Name 
     $pow_icon_exists = Get-ChildItem "\\$computer\C$\" | Where-Object {$_.Name -Match "POW"}
     
+    
     if ($check_pow_local -notcontains "POW") {
         Write-Host "Adding POW directory to local machine" -ForegroundColor Yellow
         New-Item -Path "\\$computer\C$\POW" -ItemType Directory
