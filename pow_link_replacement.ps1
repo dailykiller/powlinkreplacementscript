@@ -4,21 +4,28 @@ $computers = Get-Content .\computers.txt
 foreach ($computer in $computers) {
     $connection_test = Test-Connection $computer -Count 1 -Quiet 
     if ($connection_test) {
+
+
         $pow_users_items = Get-ChildItem "\\$computer\C$\Users" -Filter POW* -Recurse | ForEach-Object {$_.Fullname}
         if (!$null -eq $pow_users_items) {
         Remove-Item $pow_users_items -Recurse -ErrorAction Ignore
         }
         
+
         $pow_public_items = Get-ChildItem "\\$computer\C$\Users\Public\Desktop" -Filter POW* -Recurse | ForEach-Object { $_.FullName }
         if (!$null -eq $pow_public_items) {
         Remove-Item $pow_public_items -Recurse -ErrorAction Ignore
         }
 
+
         $pow_default_items = Get-ChildItem "\\$computer\C$\Users\Default\Desktop" -Filter POW* -Recurse | ForEach-Object { $_.FullName }
         if (!$null -eq $pow_default_items) {
         Remove-Item $pow_default_items -Recurse -ErrorAction Ignore
         }
+
+
     }
+
 
 }
 
@@ -72,11 +79,14 @@ foreach($computer in $computers) {
             Write-Host "$computer added icon" -ForegroundColor Green
         }
     }
+
+
     else {
     $date = Get-Date
     $log_file = ".\logs\logs.txt"
     "$computer couldn't connect on $date" | Out-File $log_file -Append
     Write-Host "$computer failed to connect to $computer" -ForegroundColor Red
     }
+    
 
 }
