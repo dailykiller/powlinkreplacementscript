@@ -5,11 +5,11 @@ foreach ($computer in $computers) {
     
     
     $pow_public_items = Get-ChildItem "\\$computer\C$\Users\Public\Desktop" -Filter "POW*" -Recurse | ForEach-Object { $_.FullName }
-    Remove-Item $pow_public_items -Recurse
+    Remove-Item $pow_public_items -Recurse -ErrorAction Ignore
     
     
     $pow_default_items = Get-ChildItem "\\$computer\C$\Users\Default\Desktop" -Filter POW* -Recurse | ForEach-Object { $_.FullName }
-    Remove-Item $pow_default_items -Recurse
+    Remove-Item $pow_default_items -Recurse -ErrorAction Ignore
 
 
 }
@@ -51,11 +51,16 @@ foreach($computer in $computers) {
     $new_pow_icon_exists = Test-Path -Path $new_pow_icon
     if (!$new_pow_icon_exists) {
         $date = Get-Date
-        $log_file = ".\logs\failurelogs.txt"
+        $log_file = ".\logs\logs.txt"
         "$computer failed on $date" | Out-File $log_file -Append
         Write-Host "$computer failed to add icon" -ForegroundColor Red
     }
-    else {Write-Host "POW icon already on Public Desktop" -ForegroundColor Green}
+    else {
+        $date = Get-Date
+        $log_file = ".\logs\logs.txt"
+        "$computer succeeded on $date" | Out-File $log_file -Append
+        Write-Host "$computer added icon" -ForegroundColor Green
+    }
 
 
 }
