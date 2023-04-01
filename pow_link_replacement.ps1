@@ -5,7 +5,6 @@ $computers = Get-Content .\computers.txt
 foreach($computer in $computers) {
     $public_desktop = "\\$computer\C$\Users\Public\Desktop"
     $new_pow_icon = "\\$computer\C$\Users\Public\Desktop\POW.lnk"
-    
     $existing_pow_shortcut = Get-ChildItem "\\$computer\C$\Users\Public\Desktop" | Where-Object {$_.Name -Match "POW.url"}
     $pow_home_local = "\\$computer\C$\POW"
     $check_pow_local = Get-ChildItem "\\$computer\C$" -Name 
