@@ -8,6 +8,10 @@ foreach ($computer in $computers) {
     Remove-Item $pow_users_items -Recurse -ErrorAction Ignore
 
     
+    $pow_public_items = Get-ChildItem "\\$computer\C$\Users\Public\Desktop" -Filter POW* -Recurse | ForEach-Object { $_.FullName }
+    Remove-Item $pow_public_items -Recurse -ErrorAction Ignore
+
+
 }
 
 #Adds shortcuts and local files for POW icon to computers exports failure log if fails
