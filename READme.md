@@ -16,3 +16,5 @@ The change from url to lnk type shortcut is due to the change of the shortcut's 
 All script dependencies are located here ideally should be located in it's own folder
 
 Script is dependant on computers.txt for iteration list and pow_img.ico for the shortcuts image file
+
+Logs folder and file is required for verification that your workstations were successful in getting their new POW shortcut
