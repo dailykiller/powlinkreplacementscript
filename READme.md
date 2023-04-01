@@ -14,3 +14,5 @@ The change from url to lnk type shortcut is due to the change of the shortcut's 
 ### Dependencies
 
 All script dependencies are located here ideally should be located in it's own folder
+
+Script is dependant on computers.txt for iteration list and pow_img.ico for the shorcuts image file
