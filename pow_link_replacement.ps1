@@ -5,22 +5,21 @@ foreach ($computer in $computers) {
     $connection_test = Test-Connection $computer -Count 1 -Quiet 
     if ($connection_test) {
 
-
-        $pow_users_items = Get-ChildItem "\\$computer\C$\Users" -Filter POW* -Recurse | ForEach-Object {$_.Fullname}
-        if (!$null -eq $pow_users_items) {
-        Remove-Item $pow_users_items -Recurse -ErrorAction Ignore
-        }
         
-
-        $pow_public_items = Get-ChildItem "\\$computer\C$\Users\Public\Desktop" -Filter POW* -Recurse | ForEach-Object { $_.FullName }
-        if (!$null -eq $pow_public_items) {
-        Remove-Item $pow_public_items -Recurse -ErrorAction Ignore
-        }
-
+        $user_profiles = Get-ChildItem "\\$computer\C$\Users" | ForEach-Object {$_.Fullname}
+        foreach ($user_profile in $user_profiles) { 
+            $user_profile = "$user_profile\Desktop"
+            $pow_users_items = Get-ChildItem "$user_profile" -Filter POW* -Recurse | ForEach-Object { $_.FullName }
+            
+            if (!$null -eq $pow_users_items) {
+                Remove-Item $pow_users_items 
+                }
+            }
+        
 
         $pow_default_items = Get-ChildItem "\\$computer\C$\Users\Default\Desktop" -Filter POW* -Recurse | ForEach-Object { $_.FullName }
         if (!$null -eq $pow_default_items) {
-        Remove-Item $pow_default_items -Recurse -ErrorAction Ignore
+        Remove-Item $pow_default_items -Recurse
         }
 
 
