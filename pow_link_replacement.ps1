@@ -37,7 +37,6 @@ foreach($computer in $computers) {
         $new_pow_icon = "\\$computer\C$\Users\Public\Desktop\POW.lnk"
         $pow_home_local = "\\$computer\C$\POW"
         $check_pow_local = Get-ChildItem "\\$computer\C$" -Name 
-        $pow_icon_exists = Get-ChildItem "\\$computer\C$\" | Where-Object {$_.Name -Match "POW"}
         
         
         if ($check_pow_local -notcontains "POW") {
@@ -46,7 +45,7 @@ foreach($computer in $computers) {
             Write-Host "POW Directory added" -ForegroundColor Green
         }
 
-
+        $pow_icon_exists = Get-ChildItem "\\$computer\C$\POW" | Where-Object {$_.Name -Match "POW"}
         if (!$pow_icon_exists) {
             Write-Host "Copying POW icon to local machine" -ForegroundColor Yellow
             Copy-Item -Path .\pow_img.ico -Destination $pow_home_local -Force
