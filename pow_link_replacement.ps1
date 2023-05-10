@@ -11,12 +11,11 @@ foreach ($computer in $computers) {
         foreach ($user_profile in $user_profiles) { 
             $user_profile = "$user_profile\Desktop"
             $pow_users_items = Get-ChildItem "$user_profile" -Filter POW* -Recurse -ErrorVariable error_log | ForEach-Object { $_.FullName }
-            $error_log | Out-File $error_log_file -Append
+            "$error_log | $date | $computer" | Out-File $error_log_file -Append
             if (!$null -eq $pow_users_items) {
                 Remove-Item $pow_users_items 
-                }
             }
-        
+        }        
 
         $pow_default_items = Get-ChildItem "\\$computer\C$\Users\Default\Desktop" -Filter POW* -Recurse | ForEach-Object { $_.FullName }
         if (!$null -eq $pow_default_items) {
