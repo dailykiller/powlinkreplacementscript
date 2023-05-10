@@ -70,6 +70,13 @@ foreach($computer in $computers) {
             $log_file = ".\logs\logs.txt"
             "$computer failed on $date" | Out-File $log_file -Append
             Write-Host "$computer failed to add icon" -ForegroundColor Red
+            
+            if ($env:COMPUTERNAME -eq $computer) {
+                $date = Get-Date
+                $log_file = ".\logs\logs.txt"
+                "$computer is local computer, functionality of this script is not supported yet. Failed on $date" | Out-File $log_file -Append
+                Write-Host "$computer added icon" -ForegroundColor Green
+            }
         }
         else {
             $date = Get-Date
@@ -81,9 +88,10 @@ foreach($computer in $computers) {
 
 
     else {
-    $log_file = ".\logs\logs.txt"
-    "$computer couldn't connect on $date" | Out-File $log_file -Append
-    Write-Host "$computer failed to connect to $computer" -ForegroundColor Red
+        $date = Get-Date
+        $log_file = ".\logs\logs.txt"
+        "$computer couldn't connect on $date" | Out-File $log_file -Append
+        Write-Host "$computer failed to connect to $computer" -ForegroundColor Red
     }
     
 
