@@ -1,12 +1,12 @@
 $computers = Get-Content .\computers.txt
 $error_log_file = ".\logs\error_logs.txt"
 $date = Get-Date
+
+
 #deletes all versions of POW from computers
 foreach ($computer in $computers) {
     $connection_test = Test-Connection $computer -Count 1 -Quiet 
-    if ($connection_test) {
-
-        
+    if ($connection_test) {  
         $user_profiles = Get-ChildItem "\\$computer\C$\Users" | ForEach-Object {$_.Fullname}
         foreach ($user_profile in $user_profiles) { 
             $user_profile = "$user_profile\Desktop"
@@ -22,12 +22,9 @@ foreach ($computer in $computers) {
         if (!$null -eq $pow_default_items) {
         Remove-Item $pow_default_items -Recurse
         }
-
-
     }
-
-
 }
+
 
 #Adds shortcuts and local files for POW icon to computers exports failure log if fails
 foreach($computer in $computers) {
