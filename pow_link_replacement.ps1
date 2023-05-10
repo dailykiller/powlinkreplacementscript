@@ -1,5 +1,6 @@
 $computers = Get-Content .\computers.txt
-
+$error_log_file = ".\logs\error_logs.txt"
+$date = Get-Date
 #deletes all versions of POW from computers
 foreach ($computer in $computers) {
     $connection_test = Test-Connection $computer -Count 1 -Quiet 
@@ -9,8 +10,8 @@ foreach ($computer in $computers) {
         $user_profiles = Get-ChildItem "\\$computer\C$\Users" | ForEach-Object {$_.Fullname}
         foreach ($user_profile in $user_profiles) { 
             $user_profile = "$user_profile\Desktop"
-            $pow_users_items = Get-ChildItem "$user_profile" -Filter POW* -Recurse | ForEach-Object { $_.FullName }
-            
+            $pow_users_items = Get-ChildItem "$user_profile" -Filter POW* -Recurse -ErrorVariable error_log | ForEach-Object { $_.FullName }
+            $error_log | Out-File $error_log_file -Append
             if (!$null -eq $pow_users_items) {
                 Remove-Item $pow_users_items 
                 }
@@ -80,7 +81,6 @@ foreach($computer in $computers) {
 
 
     else {
-    $date = Get-Date
     $log_file = ".\logs\logs.txt"
     "$computer couldn't connect on $date" | Out-File $log_file -Append
     Write-Host "$computer failed to connect to $computer" -ForegroundColor Red
